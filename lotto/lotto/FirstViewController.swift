@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class FirstViewController: UIViewController {
 
     var numbers: Set<Int> = [] //중복되지 않는 값 저장
     var result: [Int] = [] //결과 저장 배열
