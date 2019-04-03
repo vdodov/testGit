@@ -24,15 +24,17 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didTapButton() {
-        repeat {
+        numbers = []
+        while numbers.count < 3 {
             let number = Int.random(in: 1 ... 9)
             numbers.insert(number)
-        } while numbers.count < 3
+        }
         
         result = [Int](numbers)
         num1Label.text = String(result[0]) //num1Label에 첫번째 수 저장
         num2Label.text = String(result[1])//num2Label에 두번째 수 저장
         num3Label.text = String(result[2])//num3Label에 세번째 수 저장
+        print(result)
         
     }
 
