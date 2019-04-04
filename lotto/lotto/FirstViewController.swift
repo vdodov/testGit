@@ -13,6 +13,7 @@ class FirstViewController: UIViewController {
     var selectedNum1 = ""
     var selectedNum2 = ""
     var selectedNum3 = ""
+    var errorCount = false
     
     @IBOutlet weak var textFieldForNum1: UITextField!
     @IBOutlet weak var textFieldForNum2: UITextField!
@@ -34,6 +35,16 @@ class FirstViewController: UIViewController {
         default:
             return
         }
+        
+        if (textFieldForNum1.text?.count ?? 0 > 1) || (textFieldForNum2.text?.count ?? 0 > 1) || (textFieldForNum3.text?.count ?? 0 > 1){
+            errorCount = true
+            textFieldForNum1.text = ""
+            textFieldForNum2.text = ""
+            textFieldForNum3.text = ""
+        }
+        
+       
+        
     }
     
     // 돌리기 버튼 클릭시, 'toSecondVC'라는 Identifier를 가진 segue를 실행
