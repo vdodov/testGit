@@ -50,12 +50,20 @@ class FirstViewController: UIViewController {
         alertController.addAction(okAction)
         present(alertController,animated: true)
     }
+    
     @IBAction func 보안문자입력Action(_ sender: UITextField) {
         guard let text = sender.text else { return }
-        let isCorrectNumber = text == String(randomNumber) //입력값과 보안문자가 동일한지 확인
-        보안문자Switch.setOn(isCorrectNumber, animated: true) // 보안문자가 동일하면 스위치 ON
-//        if String(randomNumber) == sender.text {
+        if text == String(randomNumber) {
+            보안문자Switch.setOn(true, animated: true)
             print("동일")
+        } else {
+            print("xxx")
+        }
+        
+//        let isCorrectNumber = text == String(randomNumber) //입력값과 보안문자가 동일한지 확인
+//        보안문자Switch.setOn(isCorrectNumber, animated: true) // 보안문자가 동일하면 스위치 ON
+//        if String(randomNumber) == text {
+//            print("동일")
 //        }
         
     }
