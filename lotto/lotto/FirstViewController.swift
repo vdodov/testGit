@@ -9,32 +9,57 @@
 import UIKit
 
 class FirstViewController: UIViewController {
-
-    var numbers: Set<Int> = [] //중복되지 않는 값 저장
-    var result: [Int] = [] //결과 저장 배열
     
-    @IBOutlet weak var num1Label: UILabel!
-    @IBOutlet weak var num2Label: UILabel!
-    @IBOutlet weak var num3Label: UILabel!
+    var selectedNum1 = ""
+    var selectedNum2 = ""
+    var selectedNum3 = ""
     
+    @IBOutlet weak var textFieldForNum1: UITextField!
+    @IBOutlet weak var textFieldForNum2: UITextField!
+    @IBOutlet weak var textFieldForNum3: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
     }
-
-    @IBAction func didTapButton() {
-        numbers = []
-        while numbers.count < 3 {
-            let number = Int.random(in: 1 ... 9)
-            numbers.insert(number)
+    
+    // 여러개의 textField의 값들을 받아서 selectedNums에 저장, tag로 구분지어줌
+    @IBAction func textFields(_ sender: UITextField) {
+        switch sender.tag {
+        case 1:
+            selectedNum1 = (textFieldForNum1.text ?? "")
+        case 2:
+            selectedNum2 = (textFieldForNum2.text ?? "")
+        case 3:
+            selectedNum3 = (textFieldForNum3.text ?? "")
+        default:
+            return
         }
-        result = [Int](numbers)
-        num1Label.text = String(result[0]) //num1Label에 첫번째 수 저장
-        num2Label.text = String(result[1])//num2Label에 두번째 수 저장
-        num3Label.text = String(result[2])//num3Label에 세번째 수 저장
-        print(result)
     }
-
+    
+    // 돌리기 버튼 클릭시, 'toSecondVC'라는 Identifier를 가진 segue를 실행
+    @IBAction func toSecondVC(_ sender: UIButton) {
+        performSegue(withIdentifier: "toSecondVC", sender: self)
+    }
+    
+    // secondVC에 선택된 값들을 전달해준다.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        guard let secondVC = segue.destination as? SecondViewController else {
+            return
+        }
+        secondVC.lottoNumber1 = selectedNum1
+        secondVC.lottoNumber2 = selectedNum2
+        secondVC.lottoNumber3 = selectedNum3
+    }
+    
+    // secondVC의 다시하기 버튼 클릭시 firstVC로 돌아옴과 동시에 textField값들 초기화
+    @IBAction func unwindToFirstViewController(_ unwindSegue: UIStoryboardSegue) {
+        textFieldForNum1.text = ""
+        textFieldForNum2.text = ""
+        textFieldForNum3.text = ""
+    }
+    
+    
+    
 }
 
