@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol 노가다회사Delegate: class {
+protocol 노가다회사Delegate: class { // 이 회사에서 일을 하려면 필요한 조건
     func 삽질잘하는()->String
 }
 
@@ -25,7 +25,7 @@ class 노가다회사: UIViewController {
     }
     
     func 일급액수계산() {
-        일급액수.text = 채용공고?.삽질잘하는()
+        일급액수.text = 채용공고?.삽질잘하는() //일시킴
         
     }
     

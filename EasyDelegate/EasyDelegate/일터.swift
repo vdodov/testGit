@@ -28,7 +28,7 @@ class 일터: UIViewController {
         guard let 회사 = segue.destination as? 노가다회사 else {
             return
         }
-        회사.채용공고 = self
+        회사.채용공고 = self //계약서
     }
     
 }
