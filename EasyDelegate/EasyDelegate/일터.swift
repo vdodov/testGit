@@ -8,10 +8,11 @@
 
 import UIKit
 
+
+
 class 일터: UIViewController {
     
     @IBOutlet weak var 삽: UITextField!
-    
     
     
     override func viewDidLoad() {
