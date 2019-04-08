@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class 일터: UIViewController {
+class 노동자: UIViewController {
     
     @IBOutlet weak var 삽: UITextField!
     
@@ -34,7 +34,7 @@ class 일터: UIViewController {
     
 }
 
-extension 일터: 노가다회사Delegate {
+extension 노동자: 노가다회사Delegate {
     func 삽질잘하는() -> String {
         guard let 삽질 = 삽.text else {
             return "일안했냐?"
