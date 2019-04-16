@@ -10,6 +10,10 @@ import UIKit
 
 class AddNumbersVC: UIViewController {
 
+    var xButton : UIImage = UIImage(named: "xbutton")!
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
@@ -20,19 +24,19 @@ class AddNumbersVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+
+    
     func backButton() {
         let bButton = UIButton()
-        bButton.setTitle("X", for: .normal)
+        bButton.setImage(xButton, for: UIControl.State.normal)
         bButton.frame = CGRect(x: 30, y: 60, width: 30, height: 30)
-        bButton.backgroundColor = .white
-        bButton.setTitleColor(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), for: .normal)
         bButton.addTarget(self, action: #selector(dis(_:)), for: .touchUpInside)
         view.addSubview(bButton)
     }
     
     func nameTextField() {
         let nameText = UITextField()
-        nameText.frame = CGRect(x: 50, y: 50, width: 200, height: 30)
+        nameText.frame = CGRect(x: view.frame.width / 2 - 150, y: 300, width: 300, height: 40)
         nameText.backgroundColor = .white
         
         view.addSubview(nameText)
@@ -40,7 +44,11 @@ class AddNumbersVC: UIViewController {
     
     func numberTextField() {
         let numberText = UITextField()
-        numberText.frame = CGRect(x: 50, y: 100, width: 200, height: 30)
+        numberText.frame = CGRect(x: view.frame.width / 2 - 150, y: 400, width: 300, height: 40)
+
+//        numberText.center.x = view.frame.width/2
+//        numberText.center.y = view.frame.height/3
+        
         numberText.backgroundColor = .white
         
         view.addSubview(numberText)
@@ -50,8 +58,11 @@ class AddNumbersVC: UIViewController {
     func confirmButton() {
         let cButton = UIButton(type: .system)
         cButton.setTitle("저장", for: .normal)
-        cButton.frame = CGRect(x: view.frame.width - 200 , y: 500, width: view.frame.width - 200, height: 30)
-        cButton.backgroundColor = .white
+        cButton.frame = CGRect(x: view.frame.width / 2 - 100 , y: 600 , width: view.frame.width - 200, height: 40)
+        
+        cButton.backgroundColor = .darkGray
+        cButton.tintColor = .white
+        cButton.layer.cornerRadius = 10
         cButton.addTarget(self, action: #selector(goToVC), for: .touchUpInside)
     
         view.addSubview(cButton)
