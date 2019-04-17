@@ -8,10 +8,19 @@
 
 import UIKit
 
-class AddNumbersVC: UIViewController {
+protocol AddnumbersVCDelegate: class {
+    func reload()
+}
 
-    var xButton : UIImage = UIImage(named: "xbutton")!
+class AddNumbersVC: UIViewController {
     
+    weak var delegate: AddnumbersVCDelegate?
+    
+    var xButton : UIImage = UIImage(named: "xbutton")!
+    let nameText = UITextField()
+    let numberText = UITextField()
+    var numberArr = [String]()
+    var nameArr = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,29 +28,16 @@ class AddNumbersVC: UIViewController {
         backButton()
         nameTextField()
         numberTextField()
+        reloadData()
         confirmButton()
         
         
-        
-        
-        // 넣을때
-        
-         guard let userDatas = UserDefaults.standard.dictionary(forKey: "User") else {print("1"); return}
-        
-        
-        
-        
-        
     }
-    func getUserData(){
-        //  꺼낼때
-        UserDefaults.standard.set(["1" : ["name": "정아", "number": "0000"] ], forKey: "User")
-        
-        guard let userDatas = UserDefaults.standard.dictionary(forKey: "User") else {print("1"); return}
-        guard let user = userDatas["1"] as? [String: String] else {print("2"); return}
-        guard let userName = user["name"], let userNumber = user["number"] else {print("3"); return}
-        print("UserName:", userName)
-        print("Number:", userNumber)
+    func reloadData() {
+        let names = UserDefaults.standard.object(forKey: "names") as? [String] ?? []
+        let numbers = UserDefaults.standard.object(forKey: "numbers") as? [String] ?? []
+        numberArr = numbers
+        nameArr = names
     }
     
     
@@ -56,23 +52,14 @@ class AddNumbersVC: UIViewController {
     }
     
     func nameTextField() {
-        let nameText = UITextField()
         nameText.frame = CGRect(x: view.frame.width / 2 - 150, y: 300, width: 300, height: 40)
         nameText.backgroundColor = .white
-        
-        
         view.addSubview(nameText)
     }
     
     func numberTextField() {
-        let numberText = UITextField()
         numberText.frame = CGRect(x: view.frame.width / 2 - 150, y: 400, width: 300, height: 40)
-
-//        numberText.center.x = view.frame.width/2
-//        numberText.center.y = view.frame.height/3
-        
         numberText.backgroundColor = .white
-        
         view.addSubview(numberText)
     }
     
@@ -86,26 +73,29 @@ class AddNumbersVC: UIViewController {
         cButton.tintColor = .white
         cButton.layer.cornerRadius = 10
         cButton.addTarget(self, action: #selector(goToVC), for: .touchUpInside)
-    
+        
         view.addSubview(cButton)
     }
     
-
+    
     @objc func dis(_ sender: UIButton) {
+        delegate?.reload()
         presentingViewController?.dismiss(animated: true)
+        
     }
     
     @objc func goToVC() {
-       presentingViewController?.dismiss(animated: true)
+        guard let number = numberText.text, let name = nameText.text else {
+            return
+        }
+        
+        numberArr.append(number)
+        nameArr.append(name)
+        
+        UserDefaults.standard.set(nameArr, forKey: "names")
+        UserDefaults.standard.set(numberArr, forKey: "numbers")
+        
+        presentingViewController?.dismiss(animated: true)
+        delegate?.reload()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

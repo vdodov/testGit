@@ -10,23 +10,33 @@ import UIKit
 
 class DetailContactsVC: UIViewController {
     
+    let nameLabel = UILabel()
+    let numberLabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        // Do any additional setup after loading the view.
-        
-        
+        makeLabels()
     }
     
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    
+    
+    func makeLabels() {
+        nameLabel.frame = CGRect(x: 20, y: 200, width: 300, height: 50)
+        numberLabel.frame = CGRect(x: 20, y: 300, width: 300, height: 50)
+        nameLabel.backgroundColor = .lightGray
+        numberLabel.backgroundColor = .lightGray
+        view.addSubview(numberLabel)
+        view.addSubview(nameLabel)
+    }
+}
+
+extension DetailContactsVC: ViewControllerDelegate {
+    func tossInformation(_ name: String, _ number: String) {
+        nameLabel.text = name
+        numberLabel.text = number
+    }
+    
     
 }

@@ -8,41 +8,52 @@
 
 import UIKit
 
+protocol ViewControllerDelegate: class {
+    func tossInformation(_ name: String, _ number: String)
+}
+
 class ViewController: UIViewController {
     
-//    lazy var sectionTitles: [String] = users.keys.sorted()
-//    let users = [
-//        "A": ["Apple", "Avocado"],
-//        "B": ["Banana", "Blackberry"],
-//        "C": ["Cherry", "Coconut"],
-//        "D": ["Durian"],
-
+    weak var delegate: ViewControllerDelegate?
+    
     let tableView = UITableView()
     let detailcontactsVC = DetailContactsVC()
+    let addNumbersVC = AddNumbersVC()
+    var numbers = UserDefaults.standard.object(forKey: "numbers") as? [String] ?? []
+    var names = UserDefaults.standard.object(forKey: "names") as? [String] ?? []
+    var people = [String:String]()
+    var namesort = [String]()
     
-//    var numberCategories: [String: [String]] = [:]
-//    var sectionTitles: [String] = []
-//    var friendListArr: [String] = []
     
-//    var users: [Int:[Int:String]] = [0:[0000:"고정아"],1:[000:"차수연"]]
-    var users: [Int:String] = [0000:"고정아", 111:"차수연"]
-    var usersKeys: [Int] = []
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        addNumbersVC.delegate = self 
         setupTableView()
         navigationSet()
-        
-
+        makeDict()
+//                toZero()
     }
+    
+    func makeDict() {
+        for i in 0..<names.count {
+        people.updateValue(numbers[i], forKey: names[i])
+        }
+        namesort = people.keys.sorted()
+    }
+    
+    func toZero() {
+        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+            UserDefaults.standard.removeObject(forKey: key.description)
+        }
+        tableView.reloadData()
+    }
+    
     func navigationSet() {
-       
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonAction))
         navigationItem.title = "연락처"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = addButton
-        
     }
     
     
@@ -52,40 +63,48 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight =  60
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
-        
         view.addSubview(tableView)
-        
-        usersKeys = users.keys.sorted()
     }
     
-
+    
     @objc private func addBarButtonAction() {
-//        navigationController?.pushViewController(AddNumbersVC(), animated: true)
-        present(AddNumbersVC(), animated: true)
+        present(addNumbersVC, animated: true)
     }
-
+    
+    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
-func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return users.keys.count
-}
-
-func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
-    cell.textLabel?.text = users[usersKeys[indexPath.row]]
-    //indexPath.row -> 0
-    //[usersKeys[indexPath.row] -> 0000
-    //users[usersKeys[indexPath.row]] -> 고정아
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return numbers.count
+    }
     
-    return cell
-
-}
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+        
+        
+        
+        cell.textLabel?.text = namesort[indexPath.row]
+        cell.detailTextLabel?.text = people[namesort[indexPath.row]]
+        return cell
+    }
     
-
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-         navigationController?.pushViewController(detailcontactsVC, animated: true)
+        navigationController?.pushViewController(detailcontactsVC, animated: true)
+        let name = namesort[indexPath.row]
+        let number = people[namesort[indexPath.row]] ?? ""
+        self.delegate = detailcontactsVC
+        delegate?.tossInformation(name, number)
         return indexPath
     }
 }
 
+
+extension ViewController: AddnumbersVCDelegate {
+    func reload() {
+        numbers = UserDefaults.standard.object(forKey: "numbers") as? [String] ?? []
+        names = UserDefaults.standard.object(forKey: "names") as? [String] ?? []
+        makeDict()
+        tableView.reloadData()
+    }
+}
