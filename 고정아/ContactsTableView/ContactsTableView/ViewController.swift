@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     
     weak var delegate: ViewControllerDelegate?
     
+    var check = false
     let tableView = UITableView()
     let detailcontactsVC = DetailContactsVC()
     let addNumbersVC = AddNumbersVC()
@@ -23,6 +24,7 @@ class ViewController: UIViewController {
     var names = UserDefaults.standard.object(forKey: "names") as? [String] ?? []
     var people = [String:String]()
     var namesort = [String]()
+    let sectionArr = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
     
     
     override func viewDidLoad() {
@@ -31,15 +33,24 @@ class ViewController: UIViewController {
         addNumbersVC.delegate = self 
         setupTableView()
         navigationSet()
+        checkData()
         makeDict()
 //                toZero()
     }
     
+    func checkData() {
+        check = numbers.isEmpty ? true : false
+    }
+    
     func makeDict() {
+        guard check else {
+            return
+        }
         for i in 0..<names.count {
         people.updateValue(numbers[i], forKey: names[i])
         }
         namesort = people.keys.sorted()
+        print(namesort)
     }
     
     func toZero() {
@@ -75,14 +86,17 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return sectionArr.count
+//    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numbers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
-        
-        
         
         cell.textLabel?.text = namesort[indexPath.row]
         cell.detailTextLabel?.text = people[namesort[indexPath.row]]
