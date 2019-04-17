@@ -8,9 +8,14 @@
 
 import UIKit
 
-
-
 class ViewController: UIViewController {
+    
+//    lazy var sectionTitles: [String] = users.keys.sorted()
+//    let users = [
+//        "A": ["Apple", "Avocado"],
+//        "B": ["Banana", "Blackberry"],
+//        "C": ["Cherry", "Coconut"],
+//        "D": ["Durian"],
 
     let tableView = UITableView()
     let detailcontactsVC = DetailContactsVC()
@@ -19,8 +24,10 @@ class ViewController: UIViewController {
 //    var sectionTitles: [String] = []
 //    var friendListArr: [String] = []
     
-    var test = Array(1...10)
-
+//    var users: [Int:[Int:String]] = [0:[0000:"고정아"],1:[000:"차수연"]]
+    var users: [Int:String] = [0000:"고정아", 111:"차수연"]
+    var usersKeys: [Int] = []
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -47,6 +54,8 @@ class ViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
         
         view.addSubview(tableView)
+        
+        usersKeys = users.keys.sorted()
     }
     
 
@@ -59,18 +68,21 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
 func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return test.count
+    return users.keys.count
 }
 
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
-    cell.textLabel?.text = "\(test[indexPath.row])"
+    cell.textLabel?.text = users[usersKeys[indexPath.row]]
+    //indexPath.row -> 0
+    //[usersKeys[indexPath.row] -> 0000
+    //users[usersKeys[indexPath.row]] -> 고정아
+    
     return cell
 
 }
     
-    
-    
+
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
          navigationController?.pushViewController(detailcontactsVC, animated: true)
         return indexPath
