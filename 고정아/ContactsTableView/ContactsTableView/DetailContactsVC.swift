@@ -14,6 +14,8 @@ class DetailContactsVC: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         // Do any additional setup after loading the view.
+        
+        
     }
     
     
