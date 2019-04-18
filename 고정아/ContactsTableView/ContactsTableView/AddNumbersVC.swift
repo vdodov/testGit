@@ -54,6 +54,7 @@ class AddNumbersVC: UIViewController {
     func nameTextField() {
         nameText.frame = CGRect(x: view.frame.width / 2 - 150, y: 300, width: 300, height: 40)
         nameText.backgroundColor = .white
+        
         view.addSubview(nameText)
     }
     
@@ -66,7 +67,7 @@ class AddNumbersVC: UIViewController {
     
     func confirmButton() {
         let cButton = UIButton(type: .system)
-        cButton.setTitle("저장", for: .normal)
+        cButton.setTitle("저 장", for: .normal)
         cButton.frame = CGRect(x: view.frame.width / 2 - 100 , y: 600 , width: view.frame.width - 200, height: 40)
         
         cButton.backgroundColor = .darkGray
@@ -88,6 +89,7 @@ class AddNumbersVC: UIViewController {
         guard let number = numberText.text, let name = nameText.text else {
             return
         }
+        
         
         numberArr.append(number)
         nameArr.append(name)

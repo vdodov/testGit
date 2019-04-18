@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     var names = UserDefaults.standard.object(forKey: "names") as? [String] ?? []
     var people = [String:String]()
     var namesort = [String]()
-    let sectionArr = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+//    let sectionArr = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
     
     
     override func viewDidLoad() {
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         navigationSet()
         checkData()
         makeDict()
-//                toZero()
+                toZero()
     }
     
     func checkData() {
@@ -82,7 +82,6 @@ class ViewController: UIViewController {
         present(addNumbersVC, animated: true)
     }
     
-    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -104,12 +103,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        navigationController?.pushViewController(detailcontactsVC, animated: true)
+//        navigationController?.pushViewController(detailcontactsVC, animated: true)
         let name = namesort[indexPath.row]
         let number = people[namesort[indexPath.row]] ?? ""
         self.delegate = detailcontactsVC
         delegate?.tossInformation(name, number)
+        
         return indexPath
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailVC = storyBoard.instantiateViewController(withIdentifier: "DetailContactsVC") as? DetailContactsVC else {return}
+        detailVC.modalPresentationStyle = .overCurrentContext
+         self.delegate = detailVC
+        present(detailVC, animated: true)
+        
+        
     }
 }
 
