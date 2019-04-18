@@ -18,20 +18,23 @@ class ViewController: UIViewController {
     
     var check = false
     let tableView = UITableView()
-    let detailcontactsVC = DetailContactsVC()
     let addNumbersVC = AddNumbersVC()
     var numbers = UserDefaults.standard.object(forKey: "numbers") as? [String] ?? []
     var names = UserDefaults.standard.object(forKey: "names") as? [String] ?? []
     var people = [String:String]()
     var namesort = [String]()
-//    let sectionArr = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+
+//        UserDefaults.standard.removeObject(forKey: "names")
         
         
+//        for dict in UserDefaults.standard.dictionaryRepresentation() {
+//            print(dict)
+//        }
         checkData()
         makeDict()
         navigationSet()
@@ -51,13 +54,19 @@ class ViewController: UIViewController {
         for i in 0..<names.count {
         people.updateValue(numbers[i], forKey: names[i])
         }
+//        names = []
         namesort = people.keys.sorted()
         print(namesort)
     }
     
     func toZero() {
+//        UserDefaults.standard.set([], forKey: "names")
+        UserDefaults.standard.removeObject(forKey: "names")
+        UserDefaults.standard.removeObject(forKey: "numbers")
+        
         for key in UserDefaults.standard.dictionaryRepresentation().keys {
             UserDefaults.standard.removeObject(forKey: key.description)
+            
         }
         tableView.reloadData()
     }
@@ -69,7 +78,6 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
     }
     
-    
     func setupTableView() {
         tableView.frame = view.frame
         tableView.dataSource = self
@@ -79,19 +87,17 @@ class ViewController: UIViewController {
         view.addSubview(tableView)
     }
     
-    
     @objc private func addBarButtonAction() {
         present(addNumbersVC, animated: true)
     }
-    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
-    
 //    func numberOfSections(in tableView: UITableView) -> Int {
 //        return sectionArr.count
 //    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numbers.count
     }
@@ -107,19 +113,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //        navigationController?.pushViewController(detailcontactsVC, animated: true)
         let name = namesort[indexPath.row]
         let number = people[namesort[indexPath.row]] ?? ""
-        self.delegate = detailcontactsVC
-        delegate?.tossInformation(name, number)
         
+        
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let detailVC = storyBoard.instantiateViewController(withIdentifier: "DetailContactsVC") as? DetailContactsVC ?? nil
+        detailVC?.modalPresentationStyle = .overCurrentContext
+        
+        present(detailVC!, animated: true)
+        self.delegate = detailVC
+        delegate?.tossInformation(name, number)
         return indexPath
         
-//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//        guard let detailVC = storyBoard.instantiateViewController(withIdentifier: "DetailContactsVC") as? DetailContactsVC else {return}
-//        detailVC.modalPresentationStyle = .overCurrentContext
-//         self.delegate = detailVC
-//        present(detailVC, animated: true)
-        
-        
     }
+    
+    
+   
 }
 
 

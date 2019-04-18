@@ -17,12 +17,16 @@ class DetailContactsVC: UIViewController, UIImagePickerControllerDelegate, UINav
     let numberLabel = UILabel()
     let numberLabel2 = UILabel()
     
+    var xButton1 : UIImage = UIImage(named: "xbutton")!
+    
     @IBOutlet weak var imgView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         makeLabels()
+        backButton1()
+        
 //        makeImage()
     }
     
@@ -31,27 +35,39 @@ class DetailContactsVC: UIViewController, UIImagePickerControllerDelegate, UINav
 //        imageView.image = UIImage(named:"user.png")
 //        view.addSubview(imageView)
 //    }
+    func backButton1() {
+        let backButton1 = UIButton()
+        backButton1.setImage(xButton1, for: UIControl.State.normal)
+        backButton1.frame = CGRect(x: 30, y: 60, width: 30, height: 30)
+        backButton1.addTarget(self, action: #selector(dis1(_:)), for: .touchUpInside)
+        view.addSubview(backButton1)
+    }
     
     func makeLabels() {
         nameLabel2.frame = CGRect(x: 25, y: 400, width: 100, height: 40)
         nameLabel2.text = "이름 :"
         
-        nameLabel.frame = CGRect(x: view.frame.width/2 - 200, y: 400, width: 300, height: 40)
+        nameLabel.frame = CGRect(x: 100, y: 400, width: 300, height: 40)
         nameLabel.backgroundColor = .lightGray
         
-        numberLabel2.frame = CGRect(x: view.frame.width/2 - 150, y: 500, width: 100, height: 40)
+        numberLabel2.frame = CGRect(x: 25, y: 500, width: 100, height: 40)
         numberLabel2.text = "전화번호 :"
         
-        numberLabel.frame = CGRect(x: 20, y: 500, width: 300, height: 40)
+        numberLabel.frame = CGRect(x: 100, y: 500, width: 300, height: 40)
         numberLabel.backgroundColor = .lightGray
-        
-        
         
         
         view.addSubview(numberLabel)
         view.addSubview(nameLabel)
         view.addSubview(numberLabel2)
         view.addSubview(nameLabel2)
+        
+    }
+    
+    @objc func dis1(_ sender: UIButton) {
+        
+        presentingViewController?.dismiss(animated: true)
+        
     }
     
     @IBAction func pick(_ sender: Any) {

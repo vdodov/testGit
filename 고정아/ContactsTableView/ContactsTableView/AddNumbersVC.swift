@@ -54,6 +54,7 @@ class AddNumbersVC: UIViewController {
     func nameTextField() {
         nameText.frame = CGRect(x: view.frame.width / 2 - 150, y: 300, width: 300, height: 40)
         nameText.backgroundColor = .white
+        nameText.attributedPlaceholder = NSAttributedString(string: " 이름을 입력하세요.",                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         
         view.addSubview(nameText)
     }
@@ -61,6 +62,7 @@ class AddNumbersVC: UIViewController {
     func numberTextField() {
         numberText.frame = CGRect(x: view.frame.width / 2 - 150, y: 400, width: 300, height: 40)
         numberText.backgroundColor = .white
+        numberText.attributedPlaceholder = NSAttributedString(string: " 전화번호를 입력하세요.",                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
         view.addSubview(numberText)
     }
     
@@ -96,6 +98,10 @@ class AddNumbersVC: UIViewController {
         
         UserDefaults.standard.set(nameArr, forKey: "names")
         UserDefaults.standard.set(numberArr, forKey: "numbers")
+        
+        //텍스트필드 초기화
+        nameText.text = ""
+        numberText.text = ""
         
         presentingViewController?.dismiss(animated: true)
         delegate?.reload()
