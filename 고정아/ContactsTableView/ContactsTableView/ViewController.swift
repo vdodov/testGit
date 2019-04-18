@@ -30,12 +30,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        addNumbersVC.delegate = self 
-        setupTableView()
-        navigationSet()
+        
+        
         checkData()
         makeDict()
-                toZero()
+        navigationSet()
+        setupTableView()
+        addNumbersVC.delegate = self
+//                toZero()
     }
     
     func checkData() {
@@ -43,7 +45,7 @@ class ViewController: UIViewController {
     }
     
     func makeDict() {
-        guard check else {
+        guard !check else {
             return
         }
         for i in 0..<names.count {
@@ -96,7 +98,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
-        
         cell.textLabel?.text = namesort[indexPath.row]
         cell.detailTextLabel?.text = people[namesort[indexPath.row]]
         return cell
@@ -111,11 +112,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         return indexPath
         
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        guard let detailVC = storyBoard.instantiateViewController(withIdentifier: "DetailContactsVC") as? DetailContactsVC else {return}
-        detailVC.modalPresentationStyle = .overCurrentContext
-         self.delegate = detailVC
-        present(detailVC, animated: true)
+//        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//        guard let detailVC = storyBoard.instantiateViewController(withIdentifier: "DetailContactsVC") as? DetailContactsVC else {return}
+//        detailVC.modalPresentationStyle = .overCurrentContext
+//         self.delegate = detailVC
+//        present(detailVC, animated: true)
         
         
     }
