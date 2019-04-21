@@ -16,7 +16,6 @@ class ViewController: UIViewController {
     
     weak var delegate: ViewControllerDelegate?
     
-    var check = false
     let tableView = UITableView()
     let addNumbersVC = AddNumbersVC()
     var numbers = UserDefaults.standard.object(forKey: "numbers") as? [String] ?? []
@@ -30,12 +29,10 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
 
 //        UserDefaults.standard.removeObject(forKey: "names")
-        
-        
 //        for dict in UserDefaults.standard.dictionaryRepresentation() {
 //            print(dict)
 //        }
-        checkData()
+        
         makeDict()
         navigationSet()
         setupTableView()
@@ -43,31 +40,30 @@ class ViewController: UIViewController {
 //                toZero()
     }
     
-    func checkData() {
-        check = numbers.isEmpty ? true : false
-    }
     
     func makeDict() {
-        guard !check else {
+        guard !numbers.isEmpty else {
             return
         }
         for i in 0..<names.count {
         people.updateValue(numbers[i], forKey: names[i])
         }
 //        names = []
+//        numbers = []
         namesort = people.keys.sorted()
-        print(namesort)
     }
     
     func toZero() {
 //        UserDefaults.standard.set([], forKey: "names")
         UserDefaults.standard.removeObject(forKey: "names")
         UserDefaults.standard.removeObject(forKey: "numbers")
+        UserDefaults.standard.removeObject(forKey: "")
         
         for key in UserDefaults.standard.dictionaryRepresentation().keys {
             UserDefaults.standard.removeObject(forKey: key.description)
             
         }
+        
         tableView.reloadData()
     }
     
@@ -94,10 +90,6 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return sectionArr.count
-//    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numbers.count
     }
@@ -105,32 +97,33 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
         cell.textLabel?.text = namesort[indexPath.row]
-        cell.detailTextLabel?.text = people[namesort[indexPath.row]]
+//        cell.detailTextLabel?.text = people[namesort[indexPath.row]]
         return cell
     }
+    
+//    테이블뷰셀 삭제
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            self.namesort.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
 //        navigationController?.pushViewController(detailcontactsVC, animated: true)
         let name = namesort[indexPath.row]
         let number = people[namesort[indexPath.row]] ?? ""
         
-        
-        
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let detailVC = storyBoard.instantiateViewController(withIdentifier: "DetailContactsVC") as? DetailContactsVC ?? nil
-        detailVC?.modalPresentationStyle = .overCurrentContext
         
         present(detailVC!, animated: true)
         self.delegate = detailVC
         delegate?.tossInformation(name, number)
         return indexPath
-        
+    
     }
-    
-    
-   
 }
-
 
 extension ViewController: AddnumbersVCDelegate {
     func reload() {

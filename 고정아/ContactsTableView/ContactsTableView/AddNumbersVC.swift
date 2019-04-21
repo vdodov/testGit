@@ -30,23 +30,21 @@ class AddNumbersVC: UIViewController {
         numberTextField()
         reloadData()
         confirmButton()
+     
         
         
     }
-    func reloadData() {
+    func reloadData() { // 기존데이터 업데이트
         let names = UserDefaults.standard.object(forKey: "names") as? [String] ?? []
         let numbers = UserDefaults.standard.object(forKey: "numbers") as? [String] ?? []
         numberArr = numbers
         nameArr = names
     }
     
-    
-    
     func backButton() {
         let bButton = UIButton()
         bButton.setImage(xButton, for: UIControl.State.normal)
         bButton.frame = CGRect(x: 30, y: 60, width: 30, height: 30)
-        bButton.setTitleColor(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), for: .normal)
         bButton.addTarget(self, action: #selector(dis(_:)), for: .touchUpInside)
         view.addSubview(bButton)
     }
@@ -66,7 +64,6 @@ class AddNumbersVC: UIViewController {
         view.addSubview(numberText)
     }
     
-    
     func confirmButton() {
         let cButton = UIButton(type: .system)
         cButton.setTitle("저 장", for: .normal)
@@ -76,7 +73,7 @@ class AddNumbersVC: UIViewController {
         cButton.tintColor = .white
         cButton.layer.cornerRadius = 10
         cButton.addTarget(self, action: #selector(goToVC), for: .touchUpInside)
-        
+
         view.addSubview(cButton)
     }
     
@@ -84,18 +81,19 @@ class AddNumbersVC: UIViewController {
     @objc func dis(_ sender: UIButton) {
         delegate?.reload()
         presentingViewController?.dismiss(animated: true)
-        
     }
+
     
     @objc func goToVC() {
+        
         guard let number = numberText.text, let name = nameText.text else {
             return
         }
         
-        
         numberArr.append(number)
         nameArr.append(name)
         
+        //유저디폴트 안에 names 와 numbers 라는 키값을 가진 데이터를 업데이트
         UserDefaults.standard.set(nameArr, forKey: "names")
         UserDefaults.standard.set(numberArr, forKey: "numbers")
         
@@ -103,6 +101,16 @@ class AddNumbersVC: UIViewController {
         nameText.text = ""
         numberText.text = ""
         
+        //Alert창 띄우기
+//        let alertController = UIAlertController(title: nil, message: " 빈칸을 모두 채우세요", preferredStyle: .alert)
+//        let alertButton = UIAlertAction(title: "확인", style: .default)
+//
+//        if nameText.text == nil, numberText.text == nil {
+//            present(alertController,animated: true)
+//        }
+//
+//        alertController.addAction(alertButton)
+    
         presentingViewController?.dismiss(animated: true)
         delegate?.reload()
     }

@@ -4,7 +4,6 @@
 //
 //  Created by Daisy on 16/04/2019.
 //  Copyright © 2019 고정아. All rights reserved.
-//
 
 import UIKit
 
@@ -26,15 +25,14 @@ class DetailContactsVC: UIViewController, UIImagePickerControllerDelegate, UINav
         self.view.backgroundColor = .white
         makeLabels()
         backButton1()
-        
-//        makeImage()
-    }
+  }
     
 //    func makeImage() {
 //        imageView.frame = CGRect(x: 200, y: 200, width: 100, height: 100)
 //        imageView.image = UIImage(named:"user.png")
 //        view.addSubview(imageView)
 //    }
+    
     func backButton1() {
         let backButton1 = UIButton()
         backButton1.setImage(xButton1, for: UIControl.State.normal)
@@ -44,16 +42,18 @@ class DetailContactsVC: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     func makeLabels() {
-        nameLabel2.frame = CGRect(x: 25, y: 400, width: 100, height: 40)
-        nameLabel2.text = "이름 :"
+        nameLabel2.frame = CGRect(x: 25, y: 450, width: 70, height: 40)
+        nameLabel2.text = "이       름 :"
+        nameLabel2.textAlignment = .right
         
-        nameLabel.frame = CGRect(x: 100, y: 400, width: 300, height: 40)
+        nameLabel.frame = CGRect(x: 100, y: 450, width: 280, height: 40)
         nameLabel.backgroundColor = .lightGray
         
-        numberLabel2.frame = CGRect(x: 25, y: 500, width: 100, height: 40)
+        numberLabel2.frame = CGRect(x: 25, y: 550, width: 70, height: 40)
         numberLabel2.text = "전화번호 :"
+        numberLabel2.textAlignment = .right
         
-        numberLabel.frame = CGRect(x: 100, y: 500, width: 300, height: 40)
+        numberLabel.frame = CGRect(x: 100, y: 550, width: 280, height: 40)
         numberLabel.backgroundColor = .lightGray
         
         
@@ -97,7 +97,7 @@ class DetailContactsVC: UIViewController, UIImagePickerControllerDelegate, UINav
         picker.dismiss(animated: false) { () in
             let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
             self.imgView.image = img
-            
+
         }
     }
 }
@@ -107,6 +107,4 @@ extension DetailContactsVC: ViewControllerDelegate {
         nameLabel.text = "  \(name)"
         numberLabel.text = "  \(number)"
     }
-    
-    
 }
