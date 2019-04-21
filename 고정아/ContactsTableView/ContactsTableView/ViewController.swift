@@ -42,6 +42,7 @@ class ViewController: UIViewController {
     
     
     func makeDict() {
+<<<<<<< HEAD
         guard !numbers.isEmpty else {
             return
         }
@@ -51,6 +52,15 @@ class ViewController: UIViewController {
 //        names = []
 //        numbers = []
         namesort = people.keys.sorted()
+=======
+        guard !check else { return } //?
+        for i in 0..<names.count { // 0 - 저장된 이름의 개수까지
+            people.updateValue(numbers[i], forKey: names[i]) //people dic생성 -> 전화번호,이름을 저장
+        }
+//        names = []
+        namesort = people.keys.sorted() //딕셔너리 키값(=이름)을 순서대로 정렬
+        print(namesort)
+>>>>>>> 7007c7b930d828b9ffa9cd05a0e1476f942be198
     }
     
     func toZero() {
@@ -67,19 +77,19 @@ class ViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func navigationSet() {
+    func navigationSet() { //네비게이션 버튼 생성
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBarButtonAction))
         navigationItem.title = "연락처"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = addButton
+        navigationController?.navigationBar.prefersLargeTitles = true //글씨사이즈 크게
+        navigationItem.rightBarButtonItem = addButton //오른쪽에 버튼 생성
     }
     
     func setupTableView() {
         tableView.frame = view.frame
         tableView.dataSource = self
-        tableView.delegate = self
+        tableView.delegate = self//?
         tableView.rowHeight =  60
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID") //재사용
         view.addSubview(tableView)
     }
     
